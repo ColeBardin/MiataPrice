@@ -15,26 +15,69 @@ legends = plotNA(prices,legends);
 
 legend(legends)
 
-axis tight
+%axis([2005,2023, 0, 12000])
+%axis tight
 
 % Functions
 function legends = plotNA(prices,legends)
     NA = prices.Var5=="NA";
+
     xA = prices.Var1;
     xA = xA(NA);
+    
     yA = prices.Var2;
     yA = yA(NA);
-    scatter(xA, yA, 50, 'filled','ro')
+
+    x_average = [];
+    y_average = [];
+
+    for year=1990:1:2023
+        sum = 0;
+        count = 0;
+        len = size(xA);
+        for index = 1:1:len(1)
+            if xA(index) == year
+                count = count + 1;
+                sum = sum + yA(index);
+            end
+        end
+        if count>0
+            x_average = [x_average, year];
+            y_average = [y_average, sum/count];
+        end
+    end
+    bar(x_average,y_average, 'red')
     legends = [legends, "NA"];
 end
 
 function legends = plotNB(prices, legends)
     NB = prices.Var5=="NB";
+
     xB = prices.Var1;
     xB = xB(NB);
+    
     yB = prices.Var2;
     yB = yB(NB);
-    scatter(xB, yB, 50, 'filled','bo')
+
+    x_average = [];
+    y_average = [];
+
+    for year=1990:1:2023
+        sum = 0;
+        count = 0;
+        len = size(xB);
+        for index = 1:1:len(1)
+            if xB(index) == year
+                count = count + 1;
+                sum = sum + yB(index);
+            end
+        end
+        if count>0
+            x_average = [x_average, year];
+            y_average = [y_average, sum/count];
+        end
+    end
+    bar(x_average,y_average, 'blue')
     legends = [legends, "NB"];
 end
 
