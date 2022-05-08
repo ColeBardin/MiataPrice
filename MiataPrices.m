@@ -1,10 +1,14 @@
 clc, clear, close all
 hold on
+grid on
 
 prices = readtable('Prices.csv');
-title("Price vs Year of Purcase")
-ylabel("Price ($ USD)")
+title("First Generation Miata: Average Price vs Year of Purcase")
+ylabel("Average Price ($)")
 xlabel("Year of Purchase")
+yticks(0:2000:20000)
+ax = gca;
+ax.YAxis.Exponent = 0;
 
 legends = [];
 
@@ -15,7 +19,7 @@ legends = plotNA(prices,legends);
 
 legend(legends)
 
-%axis([2005,2023, 0, 12000])
+axis([1995,2023, 0, 20000])
 %axis tight
 
 % Functions
@@ -27,6 +31,9 @@ function legends = plotNA(prices,legends)
     
     yA = prices.Var2;
     yA = yA(NA);
+
+    milage = prices.Var3;
+    milage = milage(NA);
 
     x_average = [];
     y_average = [];
@@ -47,7 +54,8 @@ function legends = plotNA(prices,legends)
         end
     end
     bar(x_average,y_average, 'red')
-    legends = [legends, "NA"];
+    scatter(xA,yA, 'filled','k')
+    legends = [legends, "Average Price (NA: 1990-1997)"];
 end
 
 function legends = plotNB(prices, legends)
